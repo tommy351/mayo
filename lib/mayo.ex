@@ -2,21 +2,21 @@ defmodule Mayo do
   @doc """
   Validates data with a schema.
 
-    iex> Mayo.validate "test", Mayo.String.min(4) |> String.capitalize
-    "Test"
+      iex> Mayo.validate "test", Mayo.String.min(4) |> String.capitalize
+      "Test"
 
-    iex> Mayo.validate 42, Mayo.Number.max(23)
-    {:error, %Mayo.Error{type: "number.max"}}
+      iex> Mayo.validate 42, Mayo.Number.max(23)
+      {:error, %Mayo.Error{type: "number.max"}}
 
-    iex> Mayo.validate %{username: "johndoe"}, %{
-    ...>   username: Mayo.Any.string |> Mayo.String.min(6)
-    ...> }
-    %{username: "johndoe"}
+      iex> Mayo.validate %{username: "johndoe"}, %{
+      ...>   username: Mayo.Any.string |> Mayo.String.min(6)
+      ...> }
+      %{username: "johndoe"}
 
-    iex> Mayo.validate %{username: "test"}, %{
-    ...>   username: Mayo.Any.string |> Mayo.String.min(6)
-    ...> }
-    {:error, %Mayo.Error{type: "string.min", path: :username}}
+      iex> Mayo.validate %{username: "test"}, %{
+      ...>   username: Mayo.Any.string |> Mayo.String.min(6)
+      ...> }
+      {:error, %Mayo.Error{type: "string.min", path: :username}}
   """
   defmacro validate(value, schema) do
     compile(schema, value)

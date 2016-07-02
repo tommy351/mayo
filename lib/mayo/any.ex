@@ -2,11 +2,11 @@ defmodule Mayo.Any do
   @doc """
   Checks if the value is nil.
 
-    iex> Mayo.Any.required("test")
-    "test"
+      iex> Mayo.Any.required("test")
+      "test"
 
-    iex> Mayo.Any.required(nil)
-    {:error, %Mayo.Error{type: "any.required"}}
+      iex> Mayo.Any.required(nil)
+      {:error, %Mayo.Error{type: "any.required"}}
   """
   def required(value) when is_nil(value) do
     {:error, %Mayo.Error{
@@ -19,11 +19,11 @@ defmodule Mayo.Any do
   @doc """
   Sets to the default value if the value is nil.
 
-    iex> Mayo.Any.default("test", "default")
-    "test"
+      iex> Mayo.Any.default("test", "default")
+      "test"
 
-    iex> Mayo.Any.default(nil, "default")
-    "default"
+      iex> Mayo.Any.default(nil, "default")
+      "default"
   """
   def default(value, default) when is_nil(value), do: default
   def default(value, _), do: value
@@ -31,11 +31,11 @@ defmodule Mayo.Any do
   @doc """
   Checks if the value is a string.
 
-    iex> Mayo.Any.string("test")
-    "test"
+      iex> Mayo.Any.string("test")
+      "test"
 
-    iex> Mayo.Any.string(23)
-    {:error, %Mayo.Error{type: "any.string"}}
+      iex> Mayo.Any.string(23)
+      {:error, %Mayo.Error{type: "any.string"}}
   """
   def string(value) when is_binary(value), do: value
 
@@ -49,14 +49,14 @@ defmodule Mayo.Any do
   Checks if the value is a boolean or `true`, `false`, `yes`, `no`,
   `on`, `off`, `1`, `0`, 1, 0.
 
-    iex> Mayo.Any.boolean(true)
-    true
+      iex> Mayo.Any.boolean(true)
+      true
 
-    iex> Mayo.Any.boolean("yes")
-    true
+      iex> Mayo.Any.boolean("yes")
+      true
 
-    iex> Mayo.Any.boolean("foo")
-    {:error, %Mayo.Error{type: "any.boolean"}}
+      iex> Mayo.Any.boolean("foo")
+      {:error, %Mayo.Error{type: "any.boolean"}}
   """
   def boolean(value) when is_boolean(value), do: value
   def boolean(value) when value in ["true", "yes", "on", "1", 1], do: true
@@ -71,11 +71,11 @@ defmodule Mayo.Any do
   @doc """
   Checks if the value is a number.
 
-    iex> Mayo.Any.number(23)
-    23
+      iex> Mayo.Any.number(23)
+      23
 
-    iex> Mayo.Any.number("test")
-    {:error, %Mayo.Error{type: "any.number"}}
+      iex> Mayo.Any.number("test")
+      {:error, %Mayo.Error{type: "any.number"}}
   """
   def number(value) when is_number(value), do: value
 
