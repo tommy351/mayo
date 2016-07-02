@@ -1,4 +1,13 @@
 defmodule Mayo do
+  @doc """
+  Validates data with a schema.
+
+    iex> Mayo.validate "test", Mayo.String.min(4) |> String.capitalize
+    "Test"
+
+    iex> Mayo.validate 42, Mayo.Number.max(23)
+    {:error, %Mayo.Error{type: "number.max"}}
+  """
   defmacro validate(value, schema) do
     pipes = unpipe_schema(schema)
     Enum.reduce(pipes, value, &reduce_pipes/2)

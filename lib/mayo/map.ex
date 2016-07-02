@@ -1,5 +1,5 @@
 defmodule Mayo.Map do
-  def keys(schema) do
+  def keys(value, schema) do
     #
   end
 end
