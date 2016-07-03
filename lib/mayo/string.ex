@@ -129,7 +129,7 @@ defmodule Mayo.String do
       {:error, %Mayo.Error{type: "string.ip"}}
   """
   def ip(value) when is_binary(value) do
-    case value |> String.to_charlist |> :inet.parse_address do
+    case to_char_list(value) |> :inet.parse_address do
       {:ok, _} -> value
       _ -> {:error, %Mayo.Error{
         type: "string.ip"
