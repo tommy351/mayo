@@ -12,10 +12,6 @@ defmodule Mayo do
     compile(schema, value)
   end
 
-  defp compile(schema, value) when is_list(schema) do
-    Enum.reduce(schema, value, &reduce_map_pipes/2)
-  end
-
   defp compile(schema, value) do
     [{h, _} | tail] = unpipe_schema(schema)
     Enum.reduce(tail, compile_pipe(h, value), &reduce_pipes/2)
@@ -46,6 +42,10 @@ defmodule Mayo do
 
   defp compile_pipe({op, meta, args}, value) do
     {op, meta, [value | args]}
+  end
+
+  defp compile_pipe(args, value) when is_list(args) do
+    Enum.reduce(args, value, &reduce_map_pipes/2)
   end
 
   defp reduce_map_pipes({key, pipes}, acc) do

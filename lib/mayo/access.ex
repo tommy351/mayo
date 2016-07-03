@@ -4,7 +4,7 @@ defmodule Mayo.Access do
   end
 
   def fetch(value, key) when is_list(value) do
-    Keyword.fetch(value, key) 
+    Keyword.fetch(value, key)
   end
 
   def get(value, key) when is_map(value) do
@@ -29,5 +29,13 @@ defmodule Mayo.Access do
 
   def delete(value, key) when is_list(value) do
     Keyword.delete(value, key)
+  end
+
+  def keys(value) when is_map(value) do
+    Map.keys(value)
+  end
+
+  def keys(value) when is_list(value) do
+    Keyword.keys(value)
   end
 end

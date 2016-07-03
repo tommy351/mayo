@@ -34,7 +34,7 @@ defmodule MyModule do
       username: Mayo.Any.string |> Mayo.String.min(4),
       password: Mayo.Any.string |> Mayo.String.min(6)
     }
-    # {:error, %Mayo.Error{type: "string.min", path: "password"}}
+    # {:error, %Mayo.Error{type: "string.min", paths: [:password]}}
   end
 end
 ```

@@ -47,4 +47,24 @@ defmodule MayoTest do
 
     assert result == {:error, %Mayo.Error{type: "any.required", paths: [:username]}}
   end
+
+  test "map pipe" do
+    result = Mayo.validate %{
+      username: "test"
+    }, %{
+      username: Mayo.Any.string
+    } |> Mayo.Map.with([:username, :password])
+
+    assert result == {:error, %Mayo.Error{type: "map.with", paths: [:password]}}
+  end
+
+  test "list pipe" do
+    result = Mayo.validate [
+      username: "test"
+    ], [
+      username: Mayo.Any.string
+    ] |> Mayo.List.min(2)
+
+    assert result == {:error, %Mayo.Error{type: "list.min"}}
+  end
 end
