@@ -16,7 +16,7 @@ defmodule Mayo do
       iex> Mayo.validate %{username: "test"}, %{
       ...>   username: Mayo.Any.string |> Mayo.String.min(6)
       ...> }
-      {:error, %Mayo.Error{type: "string.min", path: :username}}
+      {:error, %Mayo.Error{type: "string.min", paths: [:username]}}
   """
   defmacro validate(value, schema) do
     compile(schema, value)
@@ -64,8 +64,14 @@ defmodule Mayo do
 
         _ ->
           case unquote(pipe) do
-            {:error, err} -> {:error, %{err | path: unquote(key)}}
-            result -> Map.put(unquote(acc), unquote(key), result)
+            result when is_nil(result) ->
+              unquote(acc)
+
+            {:error, %Mayo.Error{paths: paths} = err} ->
+              {:error, %{err | paths: [unquote(key) | paths]}}
+
+            result ->
+              Map.put(unquote(acc), unquote(key), result)
           end
       end
     end

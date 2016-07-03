@@ -1,3 +1,4 @@
 defmodule Mayo.Error do
-  defstruct [:type, :path]
+  defstruct type: "",
+            paths: []
 end
