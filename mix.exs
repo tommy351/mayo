@@ -23,7 +23,8 @@ defmodule Mayo.Mixfile do
   end
 
   defp deps do
-    [{:ex_doc, "~> 0.12", only: :docs},
+    [{:luhn, "~> 0.3"},
+     {:ex_doc, "~> 0.12", only: :docs},
      {:excoveralls, "~> 0.5", only: :test},
      {:inch_ex, "~> 0.5", only: :docs}]
   end

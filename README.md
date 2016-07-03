@@ -27,15 +27,23 @@ defmodule MyModule do
   require Mayo
 
   def call do
-    data = %{
-      username: "john",
+    Mayo.validate %{
+      username: "John",
       password: "123456"
-    }
-
-    Mayo.validate data, %{
+    }, %{
       username: Mayo.Any.string |> Mayo.String.min(4),
-      password: Mayo.Any.string |> Mayo.String.min(6) |> Mayo.String.max(50)
+      password: Mayo.Any.string |> Mayo.String.min(6)
     }
+    # %{username: "John", password: "123456"}
+
+    Mayo.validate %{
+      username: "John",
+      password: "1234"
+    }, %{
+      username: Mayo.Any.string |> Mayo.String.min(4),
+      password: Mayo.Any.string |> Mayo.String.min(6)
+    }
+    # {:error, %Mayo.Error{type: "string.min", path: "password"}}
   end
 end
 ```
