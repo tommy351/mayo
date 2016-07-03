@@ -11,6 +11,9 @@ defmodule Mayo.String do
   # https://github.com/hapijs/joi/blob/v8.4.2/lib/string.js#L170
   @token_pattern ~r/^\w+$/
 
+  # http://emailregex.com/
+  @email_pattern ~r/(?:[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
+
   @doc """
   Checks the minimum length of a string.
 
@@ -20,8 +23,8 @@ defmodule Mayo.String do
       iex> Mayo.String.min("t", 3)
       {:error, %Mayo.Error{type: "string.min"}}
   """
-  def min(value, len) when is_binary(value) do
-    if String.length(value) < len do
+  def min(value, limit) when is_binary(value) do
+    if String.length(value) < limit do
       {:error, %Mayo.Error{
         type: "string.min"
       }}
@@ -41,8 +44,8 @@ defmodule Mayo.String do
       iex> Mayo.String.max("bucket", 5)
       {:error, %Mayo.Error{type: "string.max"}}
   """
-  def max(value, len) when is_binary(value) do
-    if String.length(value) > len do
+  def max(value, limit) when is_binary(value) do
+    if String.length(value) > limit do
       {:error, %Mayo.Error{
         type: "string.max"
       }}
@@ -59,11 +62,14 @@ defmodule Mayo.String do
       iex> Mayo.String.length("test", 4)
       "test"
 
+      iex> Mayo.String.length("test", 2..6)
+      "test"
+
       iex> Mayo.String.length("test", 5)
       {:error, %Mayo.Error{type: "string.length"}}
   """
-  def length(value, len) when is_binary(value) do
-    if String.length(value) == len do
+  def length(value, limit) when is_binary(value) do
+    if test_length(value, limit) do
       value
     else
       {:error, %Mayo.Error{
@@ -73,6 +79,9 @@ defmodule Mayo.String do
   end
 
   def length(value, _), do: value
+
+  defp test_length(value, limit) when is_number(limit), do: String.length(value) == limit
+  defp test_length(value, limit), do: Enum.member?(limit, String.length(value))
 
   @doc """
   Checks if the string is a valid UUID.
@@ -222,4 +231,25 @@ defmodule Mayo.String do
   end
 
   def token(value), do: value
+
+  @doc """
+  Checks if the string is a valid email.
+
+      iex> Mayo.String.email("tommy@gmail.com")
+      "tommy@gmail.com"
+
+      iex> Mayo.String.email("test")
+      {:error, %Mayo.Error{type: "string.email"}}
+  """
+  def email(value) when is_binary(value) do
+    if String.match?(value, @email_pattern) do
+      value
+    else
+      {:error, %Mayo.Error{
+        type: "string.email"
+      }}
+    end
+  end
+
+  def email(value), do: value
 end

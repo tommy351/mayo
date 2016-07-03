@@ -8,8 +8,8 @@ defmodule Mayo.Map do
       iex> Mayo.Map.min(%{}, 1)
       {:error, %Mayo.Error{type: "map.min"}}
   """
-  def min(value, len) when is_map(value) do
-    if length(Map.keys(value)) < len do
+  def min(value, limit) when is_map(value) do
+    if length(Map.keys(value)) < limit do
       {:error, %Mayo.Error{
         type: "map.min"
       }}
@@ -29,8 +29,8 @@ defmodule Mayo.Map do
       iex> Mayo.Map.max(%{foo: "bar", baz: "boo"}, 1)
       {:error, %Mayo.Error{type: "map.max"}}
   """
-  def max(value, len) when is_map(value) do
-    if length(Map.keys(value)) > len do
+  def max(value, limit) when is_map(value) do
+    if length(Map.keys(value)) > limit do
       {:error, %Mayo.Error{
         type: "map.max"
       }}
@@ -47,11 +47,14 @@ defmodule Mayo.Map do
       iex> Mayo.Map.length(%{foo: "bar"}, 1)
       %{foo: "bar"}
 
+      iex> Mayo.Map.length(%{foo: "bar"}, 1..3)
+      %{foo: "bar"}
+
       iex> Mayo.Map.length(%{}, 1)
       {:error, %Mayo.Error{type: "map.length"}}
   """
-  def length(value, len) when is_map(value) do
-    if length(Map.keys(value)) == len do
+  def length(value, limit) when is_map(value) do
+    if test_length(value, limit) do
       value
     else
       {:error, %Mayo.Error{
@@ -61,6 +64,9 @@ defmodule Mayo.Map do
   end
 
   def length(value, _), do: value
+
+  defp test_length(value, limit) when is_number(limit), do: length(Map.keys(value)) == limit
+  defp test_length(value, limit), do: Enum.member?(limit, length(Map.keys(value)))
 
   @doc """
   Checks the presence of keys.
