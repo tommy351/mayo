@@ -14,7 +14,7 @@ defmodule Mayo.String do
       iex> Mayo.String.min("t", 3)
       {:error, %Mayo.Error{type: "string.min"}}
   """
-  def min(value, len) do
+  def min(value, len) when is_binary(value) do
     if String.length(value) < len do
       {:error, %Mayo.Error{
         type: "string.min"
@@ -23,6 +23,8 @@ defmodule Mayo.String do
       value
     end
   end
+
+  def min(value, _), do: value
 
   @doc """
   Checks the maximum length of a string.
@@ -33,7 +35,7 @@ defmodule Mayo.String do
       iex> Mayo.String.max("bucket", 5)
       {:error, %Mayo.Error{type: "string.max"}}
   """
-  def max(value, len) do
+  def max(value, len) when is_binary(value) do
     if String.length(value) > len do
       {:error, %Mayo.Error{
         type: "string.max"
@@ -42,6 +44,8 @@ defmodule Mayo.String do
       value
     end
   end
+
+  def max(value, _), do: value
 
   @doc """
   Checks the length of a string.
@@ -52,7 +56,7 @@ defmodule Mayo.String do
       iex> Mayo.String.length("test", 5)
       {:error, %Mayo.Error{type: "string.length"}}
   """
-  def length(value, len) do
+  def length(value, len) when is_binary(value) do
     if String.length(value) == len do
       value
     else
@@ -61,6 +65,8 @@ defmodule Mayo.String do
       }}
     end
   end
+
+  def length(value, _), do: value
 
   @doc """
   Checks if the string is a valid UUID.
@@ -71,7 +77,7 @@ defmodule Mayo.String do
       iex> Mayo.String.uuid("test")
       {:error, %Mayo.Error{type: "string.uuid"}}
   """
-  def uuid(value) do
+  def uuid(value) when is_binary(value) do
     if String.match?(value, @uuid_pattern) do
       value
     else
@@ -80,6 +86,8 @@ defmodule Mayo.String do
       }}
     end
   end
+
+  def uuid(value), do: value
 
   @doc """
   Checks if the string only contains hex.
@@ -90,7 +98,7 @@ defmodule Mayo.String do
       iex> Mayo.String.hex("lol")
       {:error, %Mayo.Error{type: "string.hex"}}
   """
-  def hex(value) do
+  def hex(value) when is_binary(value) do
     if String.match?(value, @hex_pattern) do
       value
     else
@@ -99,6 +107,8 @@ defmodule Mayo.String do
       }}
     end
   end
+
+  def hex(value), do: value
 
   @doc """
   Checks if the string is a valid IPv4 or IPv6 address.
@@ -112,7 +122,7 @@ defmodule Mayo.String do
       iex> Mayo.String.ip("test")
       {:error, %Mayo.Error{type: "string.ip"}}
   """
-  def ip(value) do
+  def ip(value) when is_binary(value) do
     case value |> String.to_charlist |> :inet.parse_address do
       {:ok, _} -> value
       _ -> {:error, %Mayo.Error{
@@ -120,6 +130,8 @@ defmodule Mayo.String do
       }}
     end
   end
+
+  def ip(value), do: value
 
   @doc """
   Checks if the string matches the pattern.
@@ -130,7 +142,7 @@ defmodule Mayo.String do
       iex> Mayo.String.match("ac", ~r/^ab+c$/)
       {:error, %Mayo.Error{type: "string.match"}}
   """
-  def match(value, pattern) do
+  def match(value, pattern) when is_binary(value) do
     if String.match?(value, pattern) do
       value
     else
@@ -139,6 +151,8 @@ defmodule Mayo.String do
       }}
     end
   end
+
+  def match(value, _), do: value
 
   @doc """
   Checks if the string is a valid Luhn number. (Use [luhn_ex](https://github.com/ma2gedev/luhn_ex) library)
@@ -149,7 +163,7 @@ defmodule Mayo.String do
       iex> Mayo.String.credit_card("123456789123456")
       {:error, %Mayo.Error{type: "string.credit_card"}}
   """
-  def credit_card(value) do
+  def credit_card(value) when is_binary(value) do
     if Luhn.valid?(value) do
       value
     else
@@ -158,4 +172,6 @@ defmodule Mayo.String do
       }}
     end
   end
+
+  def credit_card(value), do: value
 end

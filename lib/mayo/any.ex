@@ -37,7 +37,7 @@ defmodule Mayo.Any do
       iex> Mayo.Any.string(23)
       {:error, %Mayo.Error{type: "any.string"}}
   """
-  def string(value) when is_binary(value), do: value
+  def string(value) when is_binary(value) or is_nil(value), do: value
 
   def string(_) do
     {:error, %Mayo.Error{
@@ -58,7 +58,7 @@ defmodule Mayo.Any do
       iex> Mayo.Any.boolean("foo")
       {:error, %Mayo.Error{type: "any.boolean"}}
   """
-  def boolean(value) when is_boolean(value), do: value
+  def boolean(value) when is_boolean(value) or is_nil(value), do: value
   def boolean(value) when value in ["true", "yes", "on", "1", 1], do: true
   def boolean(value) when value in ["false", "no", "off", "0", 0], do: false
 
@@ -77,11 +77,28 @@ defmodule Mayo.Any do
       iex> Mayo.Any.number("test")
       {:error, %Mayo.Error{type: "any.number"}}
   """
-  def number(value) when is_number(value), do: value
+  def number(value) when is_number(value) or is_nil(value), do: value
 
   def number(_) do
     {:error, %Mayo.Error{
       type: "any.number"
+    }}
+  end
+
+  @doc """
+  Checks if the value is a map.
+
+      iex> Mayo.Any.map(%{username: "test"})
+      %{username: "test"}
+
+      iex> Mayo.Any.map("test")
+      {:error, %Mayo.Error{type: "any.map"}}
+  """
+  def map(value) when is_map(value) or is_nil(value), do: value
+
+  def map(_) do
+    {:error, %Mayo.Error{
+      type: "any.map"
     }}
   end
 end
