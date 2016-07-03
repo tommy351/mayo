@@ -103,6 +103,40 @@ defmodule Mayo.Any do
   end
 
   @doc """
+  Checks if the value is an atom.
+
+      iex> Mayo.Any.atom(:test)
+      :test
+
+      iex> Mayo.Any.atom("test")
+      {:error, %Mayo.Error{type: "any.atom"}}
+  """
+  def atom(value) when is_atom(value) or is_nil(value), do: value
+
+  def atom(_) do
+    {:error, %Mayo.Error{
+      type: "any.atom"
+    }}
+  end
+
+  @doc """
+  Checks if the value is a list.
+
+      iex> Mayo.Any.list([1, 2, 3])
+      [1, 2, 3]
+
+      iex> Mayo.Any.list("test")
+      {:error, %Mayo.Error{type: "any.list"}}
+  """
+  def list(value) when is_list(value) or is_nil(value), do: value
+
+  def list(_) do
+    {:error, %Mayo.Error{
+      type: "any.list"
+    }}
+  end
+
+  @doc """
   Forbids any value except `nil`.
 
       iex> Mayo.Any.forbidden(nil)
