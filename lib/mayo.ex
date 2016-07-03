@@ -55,12 +55,7 @@ defmodule Mayo do
   end
 
   defp reduce_map_pipes({key, pipes}, acc) do
-    item = quote do
-      case unquote(acc) do
-        {:error, _} -> unquote(acc)
-        _ -> Map.get(unquote(acc), unquote(key))
-      end
-    end
+    item = quote do: Map.get(unquote(acc), unquote(key))
     pipe = compile(pipes, item)
 
     quote do

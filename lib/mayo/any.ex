@@ -47,7 +47,7 @@ defmodule Mayo.Any do
 
   @doc """
   Checks if the value is a boolean or `true`, `false`, `yes`, `no`,
-  `on`, `off`, `1`, `0`, 1, 0.
+  `on`, `off`, `1`, `0`.
 
       iex> Mayo.Any.boolean(true)
       true
