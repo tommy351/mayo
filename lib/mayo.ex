@@ -49,7 +49,7 @@ defmodule Mayo do
   end
 
   defp reduce_map_pipes({key, pipes}, acc) do
-    item = quote do: Access.get(result, unquote(key))
+    item = quote do: Mayo.Access.get(result, unquote(key))
     pipe = compile(pipes, item)
 
     quote do
@@ -65,7 +65,7 @@ defmodule Mayo do
               {:error, %{err | paths: [unquote(key) | paths]}}
 
             value ->
-              Access.put(result, unquote(key), value)
+              Mayo.Access.put(result, unquote(key), value)
           end
       end
     end

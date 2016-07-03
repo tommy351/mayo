@@ -3,11 +3,13 @@ defmodule MayoTest do
   doctest Mayo
 
   test "map" do
-    result = Mayo.validate %{}, %{
+    result = Mayo.validate %{
+      username: "test"
+    }, %{
       username: Mayo.Any.string |> Mayo.String.min(4)
     }
 
-    assert result == %{}
+    assert result == %{username: "test"}
 
     result = Mayo.validate %{}, %{
       username: Mayo.Any.string |> Mayo.Any.required |> Mayo.String.min(4)
@@ -31,11 +33,13 @@ defmodule MayoTest do
   end
 
   test "keyword list" do
-    result = Mayo.validate [], [
+    result = Mayo.validate [
+      username: "test"
+    ], [
       username: Mayo.Any.string |> Mayo.String.min(4)
     ]
 
-    assert result == []
+    assert result == [username: "test"]
 
     result = Mayo.validate [], [
       username: Mayo.Any.string |> Mayo.Any.required |> Mayo.String.min(4)
