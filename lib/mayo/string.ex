@@ -2,8 +2,14 @@ defmodule Mayo.String do
   # http://stackoverflow.com/a/13653180
   @uuid_pattern ~r/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/
 
-  # https://github.com/hapijs/joi/blob/master/lib/string.js#L312
+  # https://github.com/hapijs/joi/blob/v8.4.2/lib/string.js#L375
   @hex_pattern ~r/^[a-f0-9]+$/i
+
+  # https://github.com/hapijs/joi/blob/v8.4.2/lib/string.js#L170
+  @alphanum_pattern ~r/^[a-zA-Z0-9]+$/
+
+  # https://github.com/hapijs/joi/blob/v8.4.2/lib/string.js#L170
+  @token_pattern ~r/^\w+$/
 
   @doc """
   Checks the minimum length of a string.
@@ -174,4 +180,46 @@ defmodule Mayo.String do
   end
 
   def credit_card(value), do: value
+
+  @doc """
+  Checks if the string only contains a-z, A-Z, and 0-9.
+
+      iex> Mayo.String.alphanum("Aa0")
+      "Aa0"
+
+      iex> Mayo.String.alphanum("!$!")
+      {:error, %Mayo.Error{type: "string.alphanum"}}
+  """
+  def alphanum(value) when is_binary(value) do
+    if String.match?(value, @alphanum_pattern) do
+      value
+    else
+      {:error, %Mayo.Error{
+        type: "string.alphanum"
+      }}
+    end
+  end
+
+  def alphanum(value), do: value
+
+  @doc """
+  Checks if the string only contains a-z, A-Z, 0-9 and underscore _.
+
+      iex> Mayo.String.token("t_z")
+      "t_z"
+
+      iex> Mayo.String.token("t!z")
+      {:error, %Mayo.Error{type: "string.token"}}
+  """
+  def token(value) when is_binary(value) do
+    if String.match?(value, @token_pattern) do
+      value
+    else
+      {:error, %Mayo.Error{
+        type: "string.token"
+      }}
+    end
+  end
+
+  def token(value), do: value
 end

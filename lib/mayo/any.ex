@@ -101,4 +101,32 @@ defmodule Mayo.Any do
       type: "any.map"
     }}
   end
+
+  @doc """
+  Forbids any value except `nil`.
+
+      iex> Mayo.Any.forbidden(nil)
+      nil
+
+      iex> Mayo.Any.forbidden("test")
+      {:error, %Mayo.Error{type: "any.forbidden"}}
+  """
+  def forbidden(value) when is_nil(value), do: value
+
+  def forbidden(_) do
+    {:error, %Mayo.Error{
+      type: "any.forbidden"
+    }}
+  end
+
+  @doc """
+  Sets the value to `nil`. Used to sanitize output.
+
+      iex> Mayo.Any.strip("test")
+      nil
+
+      iex> Mayo.Any.strip(nil)
+      nil
+  """
+  def strip(_), do: nil
 end

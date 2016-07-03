@@ -29,15 +29,6 @@ defmodule MyModule do
   def call do
     Mayo.validate %{
       username: "John",
-      password: "123456"
-    }, %{
-      username: Mayo.Any.string |> Mayo.String.min(4),
-      password: Mayo.Any.string |> Mayo.String.min(6)
-    }
-    # %{username: "John", password: "123456"}
-
-    Mayo.validate %{
-      username: "John",
       password: "1234"
     }, %{
       username: Mayo.Any.string |> Mayo.String.min(4),
