@@ -12,6 +12,10 @@ defmodule Mayo do
     compile(schema, value)
   end
 
+  defp compile(schema, value) when is_list(schema) do
+    Enum.reduce(schema, value, &reduce_map_pipes/2)
+  end
+
   defp compile(schema, value) do
     [{h, _} | tail] = unpipe_schema(schema)
     Enum.reduce(tail, compile_pipe(h, value), &reduce_pipes/2)
@@ -45,7 +49,7 @@ defmodule Mayo do
   end
 
   defp reduce_map_pipes({key, pipes}, acc) do
-    item = quote do: Map.get(result, unquote(key))
+    item = quote do: Access.get(result, unquote(key))
     pipe = compile(pipes, item)
 
     quote do
@@ -61,7 +65,7 @@ defmodule Mayo do
               {:error, %{err | paths: [unquote(key) | paths]}}
 
             value ->
-              Map.put(result, unquote(key), value)
+              Access.put(result, unquote(key), value)
           end
       end
     end
