@@ -39,6 +39,7 @@ defmodule Mayo.Mixfile do
     ["coveralls": :test,
      "coveralls.travis": :test,
      "docs": :docs,
+     "hex.docs": :docs,
      "inchci.add": :docs,
      "inchci.report": :docs]
   end

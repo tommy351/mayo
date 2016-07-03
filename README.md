@@ -1,6 +1,6 @@
 # Mayo
 
-[![Build Status](https://travis-ci.org/tommy351/mayo.svg?branch=master)](https://travis-ci.org/tommy351/mayo) [![Hex pm](http://img.shields.io/hexpm/v/mayo.svg?style=flat)](https://hex.pm/packages/mayo) [![Coverage Status](https://coveralls.io/repos/tommy351/mayo/badge.svg?branch=master)](https://coveralls.io/r/tommy351/mayo?branch=master) [![Inline docs](http://inch-ci.org/github/tommy351/mayo.svg)](http://inch-ci.org/github/tommy351/mayo)
+[![Build Status](https://travis-ci.org/tommy351/mayo.svg?branch=master)](https://travis-ci.org/tommy351/mayo) [![Hex pm](https://img.shields.io/hexpm/v/mayo.svg?style=flat)](https://hex.pm/packages/mayo) [![Coverage Status](https://coveralls.io/repos/tommy351/mayo/badge.svg?branch=master)](https://coveralls.io/r/tommy351/mayo?branch=master) [![Inline docs](https://inch-ci.org/github/tommy351/mayo.svg)](http://inch-ci.org/github/tommy351/mayo)
 
 Schema validator inspired by [Joi].
 
