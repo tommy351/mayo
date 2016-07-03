@@ -1,6 +1,5 @@
 defmodule MayoTest do
   use ExUnit.Case
-  require Mayo
   doctest Mayo
 
   test "map" do

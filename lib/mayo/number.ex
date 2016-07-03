@@ -122,13 +122,13 @@ defmodule Mayo.Number do
       iex> Mayo.Number.integer(3.14)
       {:error, %Mayo.Error{type: "number.integer"}}
   """
-  def integer(value) when is_number(value) and is_float(value) do
+  def integer(value) when is_number(value) and is_integer(value), do: value
+
+  def integer(value) when is_number(value) do
     {:error, %Mayo.Error{
       type: "number.integer"
     }}
   end
-
-  def integer(value) when is_number(value), do: value
 
   def integer(value), do: value
 
